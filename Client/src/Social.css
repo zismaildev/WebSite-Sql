@@ -1,0 +1,14 @@
+.social {
+    margin-top: 20px;
+    display: flex;
+    bottom: 60px;
+    text-align: center;
+  }
+.social i {
+    padding-right: 30px;
+    font-size: 25px;
+    color: #9a9b9c;
+  }
+.social i:hover {
+    color: #333;
+  }
