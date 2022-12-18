@@ -1,9 +1,41 @@
 // Conponents
 import * as React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import Logo from '../logo.svg'
 import { Nav, Navbar, NavDropdown, Container } from 'react-bootstrap';
 
 export default function NewNav() {
+
+    const [username, setUsername] = useState('')
+
+    // Check token
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        fetch('http://localhost:7777/authen', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    setUsername(data.username)
+                    // alert('authen sucess')
+                } else {
+                    alert('authen failed')
+                    localStorage.removeItem('token')
+                    window.location = '/login'
+                }
+                console.log(data)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, [])
+
 
     const handleLogout = (event) => {
         event.preventDefault();
@@ -33,7 +65,7 @@ export default function NewNav() {
                             <Nav.Link href="/about">About</Nav.Link>
                         </Nav>
                         <Nav className="mr-auto">
-                            <NavDropdown title="" id="basic-nav-dropdown">
+                            <NavDropdown title={username ? `${username}` : 'please login'} id="basic-nav-dropdown">
                                 <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                                 <NavDropdown.Item href="#action/3.2">Payment</NavDropdown.Item>
                                 <NavDropdown.Item href="#action/3.3">Seting</NavDropdown.Item>

@@ -60,8 +60,7 @@ app.post('/authen', jsonParser, function (req, res, next) {
     try {
         const token = req.headers.authorization.split(' ')[1]
         var decoded = jwt.verify(token, secret);
-        res.json({ status: 'ok', decoded })
-        res.json(user)
+        res.json({ status: 'ok', username:decoded.user, email:decoded.email })
     } catch (err) {
         res.json({ status: 'error', message: err.message })
     }

@@ -1,5 +1,6 @@
 // Components
 import React, { useEffect } from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -17,12 +18,13 @@ import Footer from '../Components/Footer';
 
 // Contents
 
-
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
 export default function Home() {
+
+  const [username, setUsername] = useState('')
 
   // Check token
   useEffect(() => {
@@ -37,6 +39,7 @@ export default function Home() {
       .then(response => response.json())
       .then(data => {
         if (data.status === 'ok') {
+          setUsername(data.username)
           // alert('authen sucess')
         } else {
           alert('authen failed')
@@ -73,7 +76,7 @@ export default function Home() {
               color="text.primary"
               gutterBottom
             >
-              Welcom :
+              {username ? `Welcome : ${username}` :'please login'}
             </Typography>
             <Stack
               sx={{ pt: 4 }}
